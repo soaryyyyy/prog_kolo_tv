@@ -29,7 +29,7 @@
         
         pr.getFormu().getChamp("id").setLibelle("ID");
         pr.getFormu().getChamp("daty1").setLibelle("Date D&eacute;but");
-        pr.getFormu().getChamp("daty2").setLibelle("Date de fin);
+        pr.getFormu().getChamp("daty2").setLibelle("Date de fin");
         pr.getFormu().getChamp("designation").setLibelle("D&eacute;signation");
     
         //Definition des lienTableau et des colonnes de lien
