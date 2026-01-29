@@ -1,0 +1,3 @@
+apj.connection.url=jdbc:oracle:thin:@192.168.4.152:1521:ORCL
+apj.connection.user=kolo0107
+apj.connection.password=kolo0107

@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factureclient" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="34691f34-6644-460b-abdb-9ba1e17282b1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="designation" class="java.lang.String"/>
+	<parameter name="magasin" class="java.lang.String"/>
+	<parameter name="remarque" class="java.lang.String"/>
+	<parameter name="idDevise" class="java.lang.String"/>
+	<parameter name="montantHT" class="java.lang.Double"/>
+	<parameter name="montantTVA" class="java.lang.Double"/>
+	<parameter name="montantTTC" class="java.lang.Double"/>
+	<parameter name="devise" class="java.lang.String"/>
+	<parameter name="numFact" class="java.lang.String"/>
+	<parameter name="titre" class="java.lang.String"/>
+	<parameter name="capital" class="java.lang.Double"/>
+	<parameter name="siege" class="java.lang.String"/>
+	<parameter name="bp" class="java.lang.String"/>
+	<parameter name="telephone" class="java.lang.String"/>
+	<parameter name="mail" class="java.lang.String"/>
+	<parameter name="siteweb" class="java.lang.String"/>
+	<parameter name="ville" class="java.lang.String"/>
+	<parameter name="nif" class="java.lang.String"/>
+	<parameter name="stat" class="java.lang.String"/>
+	<parameter name="adresse" class="java.lang.String"/>
+	<parameter name="contact" class="java.lang.String"/>
+	<parameter name="daty" class="java.util.Date"/>
+	<parameter name="client" class="java.lang.String"/>
+	<parameter name="logoGauche" class="java.lang.String"/>
+	<parameter name="logoDroite" class="java.lang.String"/>
+	<parameter name="dg" class="java.lang.String"/>
+	<parameter name="tva" class="java.lang.Double"/>
+	<parameter name="filigrane" class="java.lang.String"/>
+	<parameter name="echeance" class="java.lang.String"/>
+	<parameter name="reglement" class="java.lang.String"/>
+	<parameter name="numBc" class="java.lang.String"/>
+	<parameter name="nifkprod" class="java.lang.String"/>
+	<parameter name="compteBancairekprod" class="java.lang.String"/>
+	<parameter name="statkprod" class="java.lang.String"/>
+	<parameter name="rcskprod" class="java.lang.String"/>
+	<parameter name="cifkprod" class="java.lang.String"/>
+	<parameter name="montantEnLettre" class="java.lang.String"/>
+	<parameter name="totalremise" class="java.lang.Double"/>
+	<parameter name="signature" class="java.lang.String"/>
+	<parameter name="filigrane1" class="java.lang.String"/>
+	<parameter name="montantRemise" class="java.lang.Double"/>
+	<field name="id" class="java.lang.String"/>
+	<field name="designation" class="java.lang.String"/>
+	<field name="qte" class="java.lang.Double"/>
+	<field name="pu" class="java.lang.Double"/>
+	<field name="puTotal" class="java.lang.Double"/>
+	<field name="tauxDeChange" class="java.lang.Double"/>
+	<field name="tva" class="java.lang.Double"/>
+	<field name="idDevise" class="java.lang.String"/>
+	<field name="montant" class="java.lang.Double"/>
+	<field name="reference" class="java.lang.String"/>
+	<field name="remise" class="java.lang.Double"/>
+	<variable name="puTotal_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{puTotal}]]></variableExpression>
+	</variable>
+	<background>
+		<band height="802" splitType="Immediate">
+			<image>
+				<reportElement mode="Transparent" x="-9" y="143" width="573" height="445" uuid="ddbaf12f-df06-4266-bd9f-e069235b0694"/>
+				<imageExpression><![CDATA[$P{filigrane}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="285" splitType="Stretch">
+			<staticText>
+				<reportElement x="333" y="169" width="50" height="20" uuid="68e3f4b3-c17a-46a8-8482-56bf55ba193f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Client: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="332" y="229" width="51" height="20" uuid="431cb3ab-6775-46c4-91cc-eaa84a301cf1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Adresse:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="385" y="229" width="170" height="20" uuid="a400b284-3096-4273-b3f9-457292964835"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adresse}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="332" y="249" width="28" height="20" uuid="2a37e9ad-d581-4ab2-b24f-0c90fe4286da"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tel:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="385" y="249" width="170" height="20" uuid="926c0d57-f85e-418a-a663-a2a8c8ebba49"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{contact}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="414" y="154" width="142" height="15" uuid="bbe1bc33-d3b6-4a95-8cfa-38c71be8e14b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{daty}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="384" y="169" width="171" height="20" uuid="f745bc9a-d439-45d4-8672-132fe41f6262"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{client}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="23" y="176" width="253" height="50" uuid="f3b467d2-6181-45be-93ae-df86e642afe3"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{designation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="154" width="90" height="15" uuid="7b5dfae7-dc02-41fc-a9db-5fe7110f03c3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ville}+", le "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="333" y="209" width="23" height="20" uuid="72b34675-0dbf-48ef-b802-648788ee152b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nif:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="385" y="209" width="170" height="20" uuid="d73e876a-89f6-4ab6-841e-99d43e05da6b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nif}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="385" y="189" width="170" height="20" uuid="7038db5c-9457-479c-83c0-b65d21540581"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{stat}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="333" y="189" width="40" height="20" uuid="c66aa6b3-0370-485f-af98-5fe6938eaa3a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Stat:]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement x="23" y="154" width="253" height="20" uuid="77116f81-d69d-4aab-a33f-30c6b22c9ba0"/>
+			</rectangle>
+			<textField>
+				<reportElement x="23" y="154" width="253" height="20" uuid="cf856fd6-cd6a-4e8f-a230-691ddf0391f1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numFact}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="-32" y="-22" width="800" height="173" uuid="885631eb-06db-453b-8b03-f9cdba3ef5b7"/>
+				<imageExpression><![CDATA["logo_kprod.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="48" splitType="Stretch">
+			<staticText>
+				<reportElement x="69" y="31" width="160" height="17" uuid="843a29f0-973d-410b-bbf3-7ab8c08db790"/>
+				<box topPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Désignations]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="228" y="31" width="80" height="17" uuid="ea1b67ea-c5a5-4057-8127-458c95528304"/>
+				<box topPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qté]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="31" width="124" height="17" uuid="3aa168fe-fdbe-4dc1-af20-ad85116911a6"/>
+				<box topPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PU en Ariary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="432" y="31" width="123" height="17" uuid="fd9b1f48-011e-4c1d-9dbf-b0f40af9b107"/>
+				<box topPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRIX TOTAL en Ar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="31" width="68" height="17" uuid="0cb3d286-2a87-4458-8d89-fed2bf8c52dc"/>
+				<box topPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Réf]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="432" y="0" width="123" height="17" uuid="d538b5d2-1825-4c08-8091-1d932a217889"/>
+				<box topPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° BC]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="432" y="15" width="123" height="15" uuid="d548503a-aeaf-4c76-8ab1-d286c213d589"/>
+				<box leftPadding="2" rightPadding="1">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+					<paragraph leftIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numBc}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="228" y="15" width="204" height="15" uuid="fa9a4120-ef18-400b-9f7a-dc0435a60006"/>
+				<box leftPadding="2" rightPadding="1">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+					<paragraph leftIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{echeance}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="228" y="0" width="204" height="17" uuid="ff745cf7-cc1d-47ba-badf-aacdc1766489"/>
+				<box topPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Échéance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="0" width="228" height="17" uuid="aa2429ef-276a-4fe0-b1f2-11149dc0b2b6"/>
+				<box topPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mode de règlement]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1" y="15" width="228" height="15" uuid="abb65546-05a0-4489-a8bf-f4a8a60b06d8"/>
+				<box leftPadding="2" rightPadding="1">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+					<paragraph leftIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reglement}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="308" y="0" width="124" height="15" uuid="908f3913-5238-4316-83c2-a2533caae6a2"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pu}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#0.##" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="228" y="0" width="80" height="15" uuid="a0d8d82f-d1f1-40d1-a490-585ff759ebb1"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qte}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="69" y="0" width="160" height="15" uuid="26b8fc04-4c9a-491d-aca3-66802995fa5f"/>
+				<box leftPadding="1" rightPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+					<paragraph leftIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{designation} == null ? "" : $F{designation}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="432" y="0" width="123" height="15" uuid="a4ed1a02-7660-4c51-b769-6dc2bb8cfaac"/>
+				<box rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{puTotal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1" y="0" width="68" height="15" uuid="dc554502-6d48-4122-95b4-32efe7a6bb69"/>
+				<box leftPadding="1" rightPadding="1">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+					<paragraph leftIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reference} != null && !$F{reference}.isEmpty() ? $F{reference} : $F{id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="62">
+			<textField>
+				<reportElement x="0" y="30" width="556" height="15" uuid="69e26cf3-980f-4995-996a-9e7cec177ca5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["COMPTES BANCAIRES : "+$P{compteBancairekprod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="15" width="556" height="15" uuid="730368b9-158e-40cb-b92e-1a389f5bc6d6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NIF : "+$P{nifkprod}+" - STAT : "+$P{statkprod}+" - RCS : "+$P{rcskprod}+" - CIF : "+$P{cifkprod}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="254" y="0" width="177" height="15" uuid="af0a0257-ba79-460c-b402-30d6ec6bd797"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{capital}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="186" y="0" width="80" height="15" uuid="68a30547-b5df-41a8-a40a-e5314ac34802"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="9"/>
+				</textElement>
+				<text><![CDATA[Au capital de Ar :  ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="54" width="554" height="1" uuid="0972b1f6-fa50-431c-9d3a-9e8afa45c0be"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="191" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement isPrintRepeatedValues="false" x="432" y="35" width="123" height="17" uuid="ab1f95db-c976-4aa6-804e-389e7f5ad16a"/>
+				<box rightPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{montantHT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="228" y="35" width="204" height="17" uuid="15bffcf0-9ca4-4bd7-9874-5b353e3f6cae"/>
+				<box topPadding="2" leftPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Franklin Gothic Medium" size="11"/>
+				</textElement>
+				<text><![CDATA[Total remisé]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="207" y="166" width="268" height="20" uuid="cb8fa841-8b6b-492a-8e76-64440ae00425"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dg}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="207" y="102" width="268" height="13" uuid="90e6cee3-d368-4e1c-a518-5224ceb90a87"/>
+				<textElement textAlignment="Center">
+					<font fontName="Franklin Gothic Medium" size="11" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Le Gérant]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="0" y="62" width="555" height="40" uuid="17e4a2b5-d3c3-44d1-9a7d-23c8d9936c6c"/>
+				<box rightPadding="5"/>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{montantEnLettre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="228" y="17" width="204" height="17" uuid="f412a66f-7bef-40b3-ac8c-c8ca349ce4c3"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Franklin Gothic Medium" size="11"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[Remise]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="432" y="17" width="123" height="17" uuid="81d41a8e-65f6-4985-8aa8-f9b736c3a4b9"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalremise}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="228" y="0" width="205" height="17" uuid="c094f25a-23fa-42bf-a559-75344354b9b4"/>
+				<box topPadding="2" leftPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Franklin Gothic Medium" size="11"/>
+				</textElement>
+				<text><![CDATA[Total en Ariary]]></text>
+			</staticText>
+			<image>
+				<reportElement x="296" y="115" width="100" height="50" isRemoveLineWhenBlank="true" uuid="68537be2-fd95-453e-8361-98faa14c847f"/>
+				<imageExpression><![CDATA[$P{signature}]]></imageExpression>
+			</image>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="432" y="0" width="123" height="17" uuid="8b0ae524-d2c3-4169-801e-582baca5bcd8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Franklin Gothic Medium" size="11"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{puTotal_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

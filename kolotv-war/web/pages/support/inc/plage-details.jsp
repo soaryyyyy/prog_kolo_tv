@@ -1,0 +1,60 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: tokiniaina_judicael
+  Date: 11/04/2025
+  Time: 15:13
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page import="affichage.*" %>
+<%@ page import="reservation.ReservationDetailsLib" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="plage.PlageCpl" %>
+
+
+<%
+    try{
+        PlageCpl t = new PlageCpl();
+        String listeCrt[] = {};
+        String listeInt[] = {};
+        String libEntete[] = {"id","heureDebut", "heureFin", "heureDescription","jour"};
+        PageRecherche pr = new PageRecherche(t, request, listeCrt, listeInt, 3, libEntete, libEntete.length);
+        pr.setUtilisateur((user.UserEJB) session.getValue("u"));
+        pr.setLien((String) session.getValue("lien"));
+        String[] colSomme = null;
+        if(request.getParameter("id") != null){
+            pr.setApres("support/support-fiche.jsp&id="+request.getParameter("id"));
+            pr.setAWhere(" and idSupport='"+request.getParameter("id")+"'");
+        }
+
+        pr.creerObjetPage(libEntete, colSomme);
+        int nombreLigne = pr.getTableau().getData().length;
+
+%>
+
+<div class="box-body">
+    <%
+        String lienTableau[] = {pr.getLien() + "?but=plage/plage-fiche.jsp"};
+        String colonneLien[] = {"id"};
+        pr.getTableau().setLien(lienTableau);
+        pr.getTableau().setColonneLien(colonneLien);
+        String libEnteteAffiche[] = {"ID","Heure de d&eacute;but", "heure de fin", "Cat&eacute;gorie de l'heure", "Jour"};
+        pr.getTableau().setLibelleAffiche(libEnteteAffiche);
+        if(pr.getTableau().getHtml() != null){
+            out.println(pr.getTableau().getHtml());
+            out.println(pr.getBasPageOnglet());
+        }if(pr.getTableau().getHtml() == null)
+    {
+    %><center><h4>Aucune donne trouvee</h4></center><%
+    }
+
+
+%>
+
+
+
+</div>
+<%
+    } catch (Exception e) {
+        e.printStackTrace();
+    }%>

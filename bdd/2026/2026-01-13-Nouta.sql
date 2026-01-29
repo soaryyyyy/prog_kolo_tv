@@ -1,0 +1,20 @@
+
+
+CREATE OR REPLACE FORCE VIEW "PROFORMADETAILS_CPL" ("ID", "IDPROFORMA", "IDPROFORMALIB", "IDPRODUIT", "IDPRODUITLIB", "IDORIGINE", "QTE", "PU", "PUTOTAL", "PUACHAT", "IDRESERVATION", "DESIGNATION", "TVA","MONTANTREMISE") AS 
+  SELECT vd.ID,
+       vd.IDPROFORMA,
+       v.DESIGNATION    AS IDPROFORMALIB,
+       vd.IDPRODUIT,
+       p.VAL            AS IDPRODUITLIB,
+       vd.IDORIGINE,
+       vd.QTE,
+       vd.PU,
+       cast((vd.QTE * vd.PU) as NUMBER(30,2)) AS puTotal,
+       vd.PuAchat AS PUACHAT,
+       v.IDRESERVATION,
+       vd.DESIGNATION,
+       vd.tva,
+       nvl(vd.remise,0) AS montantRemise
+FROM PROFORMA_DETAILS vd
+         LEFT JOIN PROFORMA v ON v.ID = vd.IDPROFORMA
+         LEFT JOIN PRODUIT p ON p.ID = vd.IDPRODUIT;

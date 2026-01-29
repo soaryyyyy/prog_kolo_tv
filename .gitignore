@@ -1,0 +1,14 @@
+build-file
+build.xml
+.idea
+kolotv-ejb/build
+kolotv-ejb/nbproject
+**/*.iml
+
+# Local config and sensitive files
+kolotv-ejb/src/java/apj.properties
+reset-dtb.bat
+
+# Generated/temporary files
+kolo0107.log
+kolotv-war/web/dateBuild.txt

@@ -1,0 +1,68 @@
+@font-face {
+    font-family: 'MyCustomFont';
+    src: url('../Fonts/bahnschrift.ttf') format('truetype'),
+}
+
+* {
+    font-family: 'MyCustomFont' !important;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #d6dde7;
+    margin: 0;
+}
+
+.login-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+    max-width: 350px;
+    width: 100%;
+    text-align: left;
+    /* Alignement à gauche */
+}
+
+.login-logo img {
+    width: 57%;
+    height: auto;
+    margin-bottom: 15px;
+    display: block;
+    margin: 57px;
+    /* Évite l'alignement par défaut des images */
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+    /* Alignement des champs à gauche */
+    font-family: 'Inter', sans-serif;
+    color: #999;
+    /* Couleur du texte */
+    font-weight: 500;
+    /* Texte en medium */
+}
+
+.btn-login {
+    background-color: #33d4ff;
+    color: white;
+    width: 100%;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 16px;
+    font-weight: bold;
+}
+
+.btn-login:hover,
+.btn-login:focus {
+    border: none;
+    background-color: #29b3db;
+    color: white;
+}

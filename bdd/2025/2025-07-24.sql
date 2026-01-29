@@ -1,0 +1,62 @@
+ALTER TABLE VENTE ADD (ECHEANCE VARCHAR2(255));
+ALTER TABLE VENTE ADD (REGLEMENT VARCHAR2(255));
+
+
+  CREATE OR REPLACE FORCE VIEW VENTE_CPL ("ID", "DESIGNATION", "IDMAGASIN", "IDMAGASINLIB", "DATY", "REMARQUE", "ETAT", "ETATLIB", "MONTANTTOTAL", "IDDEVISE", "IDCLIENT", "IDCLIENTLIB", "MONTANTTVA", "MONTANTTTC", "MONTANTTTCAR", "MONTANTPAYE", "MONTANTRESTE", "AVOIR", "TAUXDECHANGE", "MONTANTREVIENT", "MARGEBRUTE", "IDRESERVATION", "IDORIGINE", "ECHEANCE", "REGLEMENT") AS 
+  SELECT v.ID,
+          v.DESIGNATION,
+          v.IDMAGASIN,
+          m.VAL AS IDMAGASINLIB,
+          v.DATY,
+          v.REMARQUE,
+          v.ETAT,
+          CASE
+             WHEN v.ETAT = 1 THEN 'CREE'
+             WHEN v.ETAT = 11 THEN 'VISEE'
+             WHEN v.ETAT = 0 THEN 'ANNULEE'
+          END
+             AS ETATLIB,
+          v2.MONTANTTOTAL,
+          v2.IDDEVISE,
+          v.IDCLIENT,
+          c.NOM AS IDCLIENTLIB,
+          cast(V2.MONTANTTVA as number(30,2)) as MONTANTTVA,
+          cast(V2.MONTANTTTC as number(30,2)) as montantttc,
+          cast(V2.MONTANTTTCAR as number(30,2)) as MONTANTTTCAR,
+          cast(nvl(mv.credit,0)-nvl(ACG.MONTANTPAYE, 0) AS NUMBER(30,2)) AS montantpaye,
+          cast(V2.MONTANTTTC-nvl(mv.credit,0)-nvl(ACG.resteapayer_avr, 0) AS NUMBER(30,2)) AS montantreste,
+          nvl(ACG.MONTANTTTC_avr, 0)  as avoir,
+          v2.tauxDeChange AS tauxDeChange,v2.MONTANTREVIENT,cast((V2.MONTANTTTCAR-v2.MONTANTREVIENT) as number(20,2))  as margeBrute,
+          v.IDRESERVATION,
+          v.IDORIGINE,
+          v.ECHEANCE,
+          v.REGLEMENT
+     FROM VENTE v
+          LEFT JOIN CLIENT c ON c.ID = v.IDCLIENT
+          LEFT JOIN MAGASIN m ON m.ID = v.IDMAGASIN
+          JOIN VENTEMONTANT v2 ON v2.ID = v.ID
+          LEFT JOIN mouvementcaisseGroupeFacture mv ON v.id=mv.IDORIGINE
+		  LEFT JOIN AVOIRFCLIB_CPL_GRP ACG on ACG.IDVENTE = v.ID
+ 
+
+
+  CREATE OR REPLACE FORCE VIEW INSERTION_VENTE ("ID", "DESIGNATION", "IDMAGASIN", "DATY", "REMARQUE", "ETAT", "IDORIGINE", "IDCLIENT", "IDDEVISE", "ESTPREVU", "DATYPREVU", "IDRESERVATION", "TVA","ECHEANCE", "REGLEMENT") AS 
+  SELECT
+	v.ID,
+	v.DESIGNATION,
+	v.IDMAGASIN,
+	v.DATY,
+	v.REMARQUE,
+	v.ETAT,
+	v.IDORIGINE,
+	v.IDCLIENT,
+	CAST(' ' AS varchar(100)) AS iddevise,
+	v.ESTPREVU,
+	v.DATYPREVU,
+	v.IDRESERVATION,
+	v.tva,
+    v.ECHEANCE,
+    v.REGLEMENT
+FROM VENTE v
+ 
+

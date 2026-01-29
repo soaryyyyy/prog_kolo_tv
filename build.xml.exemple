@@ -1,0 +1,145 @@
+<project name="deploy-ejb-kolotv" default="deploy" basedir="./build-file">
+    <property environment="env"/>
+
+    <property name="deploy.dir" value="D:\LOGICIEL\wildfly-10.1.0.Final\wildfly-10.1.0.Final\standalone\deployments"/>
+
+    <property name="kolotv-warname" value="kolotv.war"/>
+    <property name="kolotv-jarname" value="kolotv-ejb.jar"/>
+    <property name="kolotv-earname" value="kolotv.ear"/>
+    <property name="srcejb-dir" value="./kolotv-ejb/src/"/>
+    <property name="srcwar-dir" value="./kolotv-war/src/java"/>
+    
+    <property name="build-kolotv-war_war" value="${basedir}/kolotv_war" />
+    <property name="build-kolotv-ejb_jar" value="${basedir}/kolotv_jar" />
+    <property name="build-kolotv-lib" value="${basedir}/lib" />
+    
+    <property name="buildEar.dir" value="${basedir}/ear"/>
+    <property name="webcontent.dir" value="../kolotv-war/web"/>
+    
+    <property name="srcproperties.dir" value="../kolotv-ejb/src/java/resources"/>
+
+
+    <path id="classpath">
+        <fileset dir="${basedir}\lib">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+	
+	
+
+	
+    <target name="clean" >
+        <echo> 
+            ---- Compilation kolotv ----------------
+        </echo>
+        <echo>JDK ${ant.java.version}  ${ant.version}  </echo>
+        <echo> clean </echo>
+        
+        <delete file="${build-kolotv-ejb_jar}" />
+        <delete file="${build-kolotv-war_war}" />
+        <delete file="${build-kolotv-lib}" />
+        <delete file="${basedir}/${kolotv-earname}" />
+        <delete file="${buildEar.dir}/${kolotv-earname}" />
+		
+        <echo> clean done </echo>
+    </target>
+	
+    <tstamp>
+        <format property="dateDuJour" pattern="dd/MM/yyyy hh:mm aa" />
+    </tstamp>
+	
+    <target name="init" depends="clean">
+        <echo> initialisation ${dateDuJour} </echo>
+        
+        <mkdir dir="${build-kolotv-war_war}"/>
+        <mkdir dir="${build-kolotv-war_war}/WEB-INF"/>
+        <mkdir dir="${build-kolotv-war_war}/WEB-INF/lib"/>
+        <mkdir dir="${build-kolotv-war_war}/WEB-INF/classes"/>
+        <mkdir dir="${build-kolotv-war_war}/META-INF"/>
+        <mkdir dir="${build-kolotv-war_war}/WEB-INF/classes/META-INF"/>
+        
+        <mkdir dir="${build-kolotv-ejb_jar}"/>
+		
+		
+        <echo file="${webcontent.dir}/dateBuild.txt" append="false" message="${dateDuJour}" />
+        
+        <copy todir="${build-kolotv-war_war}/">
+            <fileset dir="${webcontent.dir}" excludes="META-INF/**"/>
+        </copy>
+        <copy todir="${build-kolotv-war_war}/META-INF">
+            <fileset dir="${webcontent.dir}/WEB-INF/META-INF" />
+        </copy>
+        <copy todir="${build-kolotv-war_war}/WEB-INF/lib/">
+            <fileset dir="${basedir}\lib" />
+        </copy>
+
+        <copy file="../kolotv-ejb/src/java/project.properties" tofile="${build-kolotv-ejb_jar}/project.properties" />
+		<copy file="../kolotv-ejb/src/java/apj.properties" tofile="${build-kolotv-ejb_jar}/apj.properties" />
+		<copy file="../kolotv-ejb/src/java/resources/text.properties" tofile="${build-kolotv-ejb_jar}/java/resources/text.properties" />
+		<copy file="../kolotv-ejb/src/java/resources/text_zh.properties" tofile="${build-kolotv-ejb_jar}/java/resources/text_zh.properties" />
+        <echo>  initialisation done </echo>
+        <copy todir="${build-kolotv-war_war}/WEB-INF">
+            <fileset dir="./../kolotv-war/web/WEB-INF" includes="**/*.xml" />
+        </copy>
+    </target>
+	
+    <target name="compile" depends="init">
+        <echo> compilation </echo>	
+        <javac srcdir="../kolotv-ejb/src/java" destdir="${build-kolotv-ejb_jar}" nowarn="true" debug="on" deprecation="off" classpathref="classpath" includeantruntime="false" encoding="iso-8859-1">
+        </javac>
+        <echo> compilation done </echo>	
+    </target>
+    
+    <target name="buildEjbJar" depends="compile">
+        <echo>Build EJB JAR</echo>
+        <jar basedir="${build-kolotv-ejb_jar}" destfile="${buildEar.dir}/${kolotv-jarname}" />
+        <copy file="${buildEar.dir}/${kolotv-jarname}" todir="${build-kolotv-war_war}/WEB-INF/lib/">
+        </copy>
+        <echo>End Build EJB JAR</echo>
+    </target>
+
+    <target name="compileWar" depends="buildEjbJar">
+        <echo> compilation </echo>
+        <javac srcdir="../kolotv-war/src/java" destdir="${build-kolotv-war_war}/WEB-INF/classes/" nowarn="true" debug="on" deprecation="off" classpathref="classpath" includeantruntime="false" encoding="iso-8859-1">
+            <classpath>
+                <pathelement location="${buildEar.dir}/${kolotv-jarname}" />
+            </classpath>
+        </javac>
+        <echo> compilation done</echo>
+    </target>
+
+
+    <target name="copieProperties" depends="compileWar">
+        <echo> Copie des properties</echo>
+        <copy file="${srcproperties.dir}/text.properties" todir="${build-kolotv-war_war}/WEB-INF/classes">
+        </copy>
+        <copy file="${srcproperties.dir}/text_zh.properties" todir="${build-kolotv-war_war}/WEB-INF/classes">
+        </copy>
+        <echo> Fin de la copie </echo>
+    </target>
+	
+	
+    <target name="deploy" depends="copieProperties">	
+        <echo>${env.JBOSS_HOME}</echo>
+        <!--<echo> deployement ear </echo>-->
+        <!--                <copy todir="${deploy.dir}">
+            <fileset dir="${build.dir}" >
+                <include name="${ketrika-earname}"/>
+            </fileset>	
+        </copy>-->
+        <copy todir="${deploy.dir}/kolotv.war">
+            <fileset dir="${build-kolotv-war_war}" >
+                <include name="**/*"/>
+            </fileset>	
+        </copy>
+        <touch file="${deploy.dir}/kolotv.war.dodeploy"/>
+        <echo> deployement exploded war done </echo>	
+        <echo> 
+            Compilation kolotv GENIUS_ART_C [DONE]----------------
+        </echo>
+		
+    </target>	
+	
+	
+
+</project>

@@ -1,0 +1,52 @@
+@echo off
+SETLOCAL
+
+REM -------------------------------
+REM Configuration
+REM -------------------------------
+SET ORACLE_SID=ORACLE
+SET SYS_USER=system
+SET SYS_PWD=Dbamanager1
+SET SOC_USER=kolo0107
+SET SOC_PWD=kolo0107
+SET DMP_FILE=.\kolo0107.dmp
+SET LOG_FILE=.\kolo0107.log
+
+echo ===========================================
+echo  RESET DU SCHEMA %SOC_USER% SUR ORACLE
+echo ===========================================
+
+REM -------------------------------
+REM Création du script SQL pour DROP USER
+REM -------------------------------
+echo DROP USER %SOC_USER% CASCADE; > drop_user.sql
+echo EXIT; >> drop_user.sql
+
+echo [1/4] Suppression de l'utilisateur %SOC_USER%...
+sqlplus %SYS_USER%/%SYS_PWD%@%ORACLE_SID% AS SYSDBA @drop_user.sql
+
+REM -------------------------------
+REM Création du script SQL pour CREATE USER
+REM -------------------------------
+echo CREATE USER %SOC_USER% IDENTIFIED BY %SOC_PWD% DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE TEMP ACCOUNT UNLOCK; > create_user.sql
+echo GRANT CONNECT, RESOURCE, DBA TO %SOC_USER%; >> create_user.sql
+echo EXIT; >> create_user.sql
+
+echo [2/4] Création du nouvel utilisateur...
+sqlplus %SYS_USER%/%SYS_PWD%@%ORACLE_SID% AS SYSDBA @create_user.sql
+
+REM -------------------------------
+REM 3. IMPORT DU DUMP
+REM -------------------------------
+echo [3/4] Import du dump %DMP_FILE%...
+imp %SOC_USER%/%SOC_PWD%@%ORACLE_SID% file=%DMP_FILE% log=%LOG_FILE% FULL=Y
+
+REM -------------------------------
+REM Nettoyage des fichiers temporaires
+REM -------------------------------
+del drop_user.sql
+del create_user.sql
+
+echo [4/4] Réinitialisation terminée !
+pause
+ENDLOCAL

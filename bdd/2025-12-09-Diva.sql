@@ -1,0 +1,22 @@
+create or replace view RESERVATIONDETAILS_SANSETAT as
+SELECT
+    r."ID",r."IDMERE",r."QTE",r."DATY",r."IDPRODUIT",r."IDMEDIA",r."SOURCE",r."REMARQUE",r."LIBELLEPRODUIT",r."CATEGORIEPRODUIT",r."PU",r."MONTANT",r."TVA",r."MONTANTTVA",r."MONTANTTTC",r."CATEGORIEPRODUITLIB",r."HEURE",r."DUREE",r."REMISE",r."IDBCFILLE",r."MONTANTREMISE",r."MONTANTFINAL",r."IDPARRAINAGE",r."LIBELLEMEDIA",r."CODECOULEUR",r."ISENTETE",r."ORDRE",r."ETAT",
+    a.ID as IDDIFFUSION,
+    a.HEURE as HEUREDIFFUSION,
+    a.DUREE as DUREEDIFFUSION,
+    a.ETATLIB,
+    a.idmedialib,
+    rmere.IDSUPPORT,
+    s.VAL AS IDSUPPORTLIB,
+    rmere.ETAT as ETATMERE,
+    c.NOM AS client,
+    CASE
+        WHEN a.id IS null THEN 'Non diffus&eacute;'
+        ELSE 'Diffus&eacute;'
+        END AS etatdiffusion,
+    rmere.DATY AS dateMere
+FROM RESERVATIONDETAILS_LIB r
+         LEFT JOIN ACTE_LIB a ON a.IDRESERVATIONFILLE = r.ID
+         LEFT JOIN RESERVATION rmere ON rmere.ID = r.IDMERE
+         LEFT JOIN CLIENT c ON c.id=rmere.IDCLIENT
+         LEFT JOIN SUPPORT s ON s.ID = rmere.IDSUPPORT ORDER BY r.HEURE ASC;

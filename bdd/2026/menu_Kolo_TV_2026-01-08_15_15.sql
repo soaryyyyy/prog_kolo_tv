@@ -1,0 +1,1 @@
+INSERT INTO menudynamique (id, libelle, icone, href, rang, niveau, id_pere) VALUES ('MENDYN1767874532215866', 'Approvisionnement', 'fa fa-plus', 'module.jsp?but=caisse/mvt/approvisionnement.jsp', 4, 3, 'MENUDYN0017');
