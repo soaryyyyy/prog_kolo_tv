@@ -37,6 +37,8 @@
     if(request.getServletContext().getAttribute("tabMenu")!=null){
         tabMenu=(MenuDynamique[])request.getServletContext().getAttribute("tabMenu");
     }
+    String but = request.getParameter("but");
+    boolean activeCaPublicite = "reservation/chiffre-affaire-publicite-calendrier.jsp".equals(but);
  %>
  <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -44,6 +46,11 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" id="menuslider">
 <%--            <li class="header">Menu</li>--%>
+            <li class="<%=activeCaPublicite ? "active" : ""%>">
+                <a href="module.jsp?but=reservation/chiffre-affaire-publicite-calendrier.jsp">
+                    <i class="fa fa-line-chart"></i> <span>Grille CA publicite</span>
+                </a>
+            </li>
             <%=MenuDynamique.renderMenu(arbre,currentMenu,tabMenu,RB) %>
 
 
