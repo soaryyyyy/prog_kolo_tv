@@ -2,6 +2,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.LocalTime" %>
+<%@ page import="java.time.Duration" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="reservation.EtatReservationDetails" %>
 <%@ page import="reservation.ReservationDetailsAvecDiffusion" %>
@@ -132,21 +133,29 @@
         LocalTime heureFin = heureDebut.plusSeconds(Math.max(dureeSeconde, 1));
 
         ArrayList<Integer> plagesTouchees = new ArrayList<Integer>();
+        ArrayList<Long> dureesChevauchement = new ArrayList<Long>();
+        long totalChevauchement = 0;
         for (int i = 0; i < listeHoraire.size(); i++) {
           LocalTime plageDebut = listeHoraire.get(i)[0];
           LocalTime plageFin = listeHoraire.get(i)[1];
-          boolean chevauche = heureDebut.isBefore(plageFin) && heureFin.isAfter(plageDebut);
-          if (chevauche) {
+          LocalTime debutChevauchement = heureDebut.isAfter(plageDebut) ? heureDebut : plageDebut;
+          LocalTime finChevauchement = heureFin.isBefore(plageFin) ? heureFin : plageFin;
+          long secondesChevauchement = Duration.between(debutChevauchement, finChevauchement).getSeconds();
+          if (secondesChevauchement > 0) {
             plagesTouchees.add(i);
+            dureesChevauchement.add(secondesChevauchement);
+            totalChevauchement += secondesChevauchement;
           }
         }
 
-        if (plagesTouchees.size() == 0) {
+        if (plagesTouchees.size() == 0 || totalChevauchement <= 0) {
           continue;
         }
 
-        double part = r.getMontantTtc() / plagesTouchees.size();
-        for (Integer iPlage : plagesTouchees) {
+        for (int idx = 0; idx < plagesTouchees.size(); idx++) {
+          int iPlage = plagesTouchees.get(idx);
+          long dureePlage = dureesChevauchement.get(idx);
+          double part = r.getMontantTtc() * ((double) dureePlage / (double) totalChevauchement);
           montantCellule[iPlage][j] += part;
           totalParPlage[iPlage] += part;
         }
