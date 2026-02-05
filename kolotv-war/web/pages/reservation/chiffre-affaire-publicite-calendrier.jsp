@@ -52,6 +52,23 @@
 }
 .amount-cell {
   font-size: 12px;
+  line-height: 1.3;
+}
+.amount-base {
+  display: block;
+  font-size: 11px;
+  color: #6f6f6f;
+}
+.amount-main {
+  display: block;
+  font-weight: 700;
+  color: #1f2937;
+}
+.total-row .amount-base {
+  color: rgba(255, 255, 255, 0.85);
+}
+.total-row .amount-main {
+  color: #fff;
 }
 .empty-cell {
   color: #a5a5a5;
@@ -115,9 +132,13 @@
 
     List<LocalTime[]> listeHoraire = CalendarUtil.trierParReference(eta.getHoraire(), LocalTime.MIDNIGHT);
 
+    double[][] montantCelluleBase = new double[listeHoraire.size()][listeDate.length];
     double[][] montantCellule = new double[listeHoraire.size()][listeDate.length];
+    double[] totalParJourBase = new double[listeDate.length];
     double[] totalParJour = new double[listeDate.length];
+    double[] totalParPlageBase = new double[listeHoraire.size()];
     double[] totalParPlage = new double[listeHoraire.size()];
+    double totalGeneralBase = 0;
     double totalGeneral = 0;
 
     for (int j = 0; j < listeDate.length; j++) {
@@ -186,11 +207,15 @@
             majorationsJour
           );
 
+          montantCelluleBase[iPlage][j] += partBase;
           montantCellule[iPlage][j] += partMajoree;
+          totalParPlageBase[iPlage] += partBase;
           totalParPlage[iPlage] += partMajoree;
           montantMajoreReservation += partMajoree;
         }
+        totalParJourBase[j] += r.getMontantTtc();
         totalParJour[j] += montantMajoreReservation;
+        totalGeneralBase += r.getMontantTtc();
         totalGeneral += montantMajoreReservation;
       }
     }
@@ -298,17 +323,22 @@
           <tr>
             <td class="hour-col"><%=plage[0]%> - <%=plage[1]%></td>
             <% for (int j = 0; j < listeDate.length; j++) {
-              double montant = montantCellule[i][j];
+              double montantBase = montantCelluleBase[i][j];
+              double montantMajore = montantCellule[i][j];
             %>
             <td class="amount-cell">
-              <% if (montant > 0) { %>
-              <%=Utilitaire.formaterAr(montant)%>
+              <% if (montantMajore > 0 || montantBase > 0) { %>
+              <span class="amount-base">Ancien: <%=Utilitaire.formaterAr(montantBase)%></span>
+              <span class="amount-main">Majore: <%=Utilitaire.formaterAr(montantMajore)%></span>
               <% } else { %>
               <span class="empty-cell">-</span>
               <% } %>
             </td>
             <% } %>
-            <td class="total-col"><%=Utilitaire.formaterAr(totalParPlage[i])%></td>
+            <td class="total-col amount-cell">
+              <span class="amount-base">Ancien: <%=Utilitaire.formaterAr(totalParPlageBase[i])%></span>
+              <span class="amount-main">Majore: <%=Utilitaire.formaterAr(totalParPlage[i])%></span>
+            </td>
           </tr>
           <% } %>
           </tbody>
@@ -316,9 +346,15 @@
           <tr class="total-row">
             <th>Total jour</th>
             <% for (int j = 0; j < listeDate.length; j++) { %>
-            <th><%=Utilitaire.formaterAr(totalParJour[j])%></th>
+            <th class="amount-cell">
+              <span class="amount-base">Ancien: <%=Utilitaire.formaterAr(totalParJourBase[j])%></span>
+              <span class="amount-main">Majore: <%=Utilitaire.formaterAr(totalParJour[j])%></span>
+            </th>
             <% } %>
-            <th><%=Utilitaire.formaterAr(totalGeneral)%></th>
+            <th class="amount-cell">
+              <span class="amount-base">Ancien: <%=Utilitaire.formaterAr(totalGeneralBase)%></span>
+              <span class="amount-main">Majore: <%=Utilitaire.formaterAr(totalGeneral)%></span>
+            </th>
           </tr>
           </tfoot>
         </table>
