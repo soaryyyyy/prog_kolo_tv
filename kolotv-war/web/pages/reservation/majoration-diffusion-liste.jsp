@@ -17,7 +17,7 @@
     pr.getFormu().getChamp("heureDebut").setType("time");
     pr.getFormu().getChamp("heureFin").setLibelle("Heure fin");
     pr.getFormu().getChamp("heureFin").setType("time");
-    pr.getFormu().getChamp("tauxMajoration").setLibelle("Taux de majoration (%)");
+    pr.getFormu().getChamp("tauxMajoration").setLibelle("Taux de variation (%)");
 
     String[] colSomme = null;
     pr.creerObjetPage(libEntete, colSomme);
@@ -25,7 +25,7 @@
     String colonneLien[] = {"id"};
     pr.getTableau().setLien(lienTableau);
     pr.getTableau().setColonneLien(colonneLien);
-    String libEnteteAffiche[] = {"ID", "Jour", "Heure d&eacute;but", "Heure fin", "Majoration (%)"};
+    String libEnteteAffiche[] = {"ID", "Jour", "Heure d&eacute;but", "Heure fin", "Variation (%)"};
     pr.getTableau().setLibelleAffiche(libEnteteAffiche);
 %>
 

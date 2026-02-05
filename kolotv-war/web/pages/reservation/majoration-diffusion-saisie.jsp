@@ -33,7 +33,7 @@
         pi.getFormu().getChamp("heureFin").setAutre("step=\"1\"");
         pi.getFormu().getChamp("heureFin").setDefaut(Utilitaire.heureCouranteHM());
 
-        pi.getFormu().getChamp("tauxMajoration").setLibelle("Taux de majoration (%)");
+        pi.getFormu().getChamp("tauxMajoration").setLibelle("Taux de variation (%)");
         pi.getFormu().getChamp("tauxMajoration").setType("number");
         pi.getFormu().getChamp("tauxMajoration").setAutre("step=\"0.01\" min=\"-100\"");
         pi.getFormu().getChamp("tauxMajoration").setDefaut("0");

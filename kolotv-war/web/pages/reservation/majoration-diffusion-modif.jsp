@@ -26,9 +26,9 @@
     pu.getFormu().getChamp("heureFin").setLibelle("Heure fin");
     pu.getFormu().getChamp("heureFin").setType("time");
     pu.getFormu().getChamp("heureFin").setAutre("step=\"1\"");
-    pu.getFormu().getChamp("tauxMajoration").setLibelle("Taux de majoration (%)");
+    pu.getFormu().getChamp("tauxMajoration").setLibelle("Taux de variation (%)");
     pu.getFormu().getChamp("tauxMajoration").setType("number");
-    pu.getFormu().getChamp("tauxMajoration").setAutre("step=\"0.01\" min=\"0\"");
+    pu.getFormu().getChamp("tauxMajoration").setAutre("step=\"0.01\" min=\"-100\"");
 
     String lien = (String) session.getValue("lien");
     String id = pu.getBase().getTuppleID();

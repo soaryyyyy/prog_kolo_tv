@@ -15,7 +15,7 @@
     pc.getChampByName("jour").setLibelle("Jour");
     pc.getChampByName("heureDebut").setLibelle("Heure d&eacute;but");
     pc.getChampByName("heureFin").setLibelle("Heure fin");
-    pc.getChampByName("tauxMajoration").setLibelle("Taux de majoration (%)");
+    pc.getChampByName("tauxMajoration").setLibelle("Taux de variation (%)");
 
     String lien = (String) session.getValue("lien");
     String pageModif = "reservation/majoration-diffusion-modif.jsp";
