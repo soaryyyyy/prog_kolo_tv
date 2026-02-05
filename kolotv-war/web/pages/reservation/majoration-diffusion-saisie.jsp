@@ -35,7 +35,7 @@
 
         pi.getFormu().getChamp("tauxMajoration").setLibelle("Taux de majoration (%)");
         pi.getFormu().getChamp("tauxMajoration").setType("number");
-        pi.getFormu().getChamp("tauxMajoration").setAutre("step=\"0.01\" min=\"0\"");
+        pi.getFormu().getChamp("tauxMajoration").setAutre("step=\"0.01\" min=\"-100\"");
         pi.getFormu().getChamp("tauxMajoration").setDefaut("0");
 
         pi.preparerDataFormu();

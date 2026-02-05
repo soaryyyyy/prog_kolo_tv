@@ -107,8 +107,8 @@ public class MajorationDiffusion extends ClassMAPTable {
     }
 
     public void setTauxMajoration(double tauxMajoration) throws Exception {
-        if (tauxMajoration < 0) {
-            throw new Exception("Le taux de majoration doit etre positif");
+        if (tauxMajoration < -100) {
+            throw new Exception("Le taux de variation doit etre superieur ou egal a -100");
         }
         this.tauxMajoration = tauxMajoration;
     }
@@ -245,8 +245,8 @@ public class MajorationDiffusion extends ClassMAPTable {
             throw new Exception("Heure debut et heure fin obligatoires");
         }
         CalendarUtil.controlerHeureDebutEtFin(this.getHeureDebut(), this.getHeureFin(), null);
-        if (this.getTauxMajoration() < 0) {
-            throw new Exception("Le taux de majoration doit etre positif");
+        if (this.getTauxMajoration() < -100) {
+            throw new Exception("Le taux de variation doit etre superieur ou egal a -100");
         }
         if (this.hasChevauchement(c)) {
             throw new Exception("Une majoration existe deja sur une plage horaire qui chevauche cet intervalle");

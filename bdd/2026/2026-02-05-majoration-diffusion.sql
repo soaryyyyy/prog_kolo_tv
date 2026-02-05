@@ -25,4 +25,13 @@ CREATE SEQUENCE seq_majoration_diffusion
     NOCACHE
     NOCYCLE;
 
-CREATE OR REPLACE FUNCTION getseq_majoration_diffusion RETURN NUMBER IS retour NUMBER; BEGIN SELECT seq_majoration_diffusion.NEXTVAL INTO retour FROM DUAL;RETURN retour;END;
+CREATE OR REPLACE FUNCTION getseq_majoration_diffusion
+RETURN NUMBER
+IS
+  retour NUMBER;
+BEGIN
+  SELECT seq_majoration_diffusion.NEXTVAL INTO retour FROM dual;
+  RETURN retour;
+END;
+/
+SHOW ERRORS;
