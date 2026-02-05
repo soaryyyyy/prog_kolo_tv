@@ -39,6 +39,7 @@
     }
     String but = request.getParameter("but");
     boolean activeCaPublicite = "reservation/chiffre-affaire-publicite-calendrier.jsp".equals(but);
+    boolean activeMajorationDiffusion = but != null && but.startsWith("reservation/majoration-diffusion");
  %>
  <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -49,6 +50,11 @@
             <li class="<%=activeCaPublicite ? "active" : ""%>">
                 <a href="module.jsp?but=reservation/chiffre-affaire-publicite-calendrier.jsp">
                     <i class="fa fa-line-chart"></i> <span>Grille CA publicite</span>
+                </a>
+            </li>
+            <li class="<%=activeMajorationDiffusion ? "active" : ""%>">
+                <a href="module.jsp?but=reservation/majoration-diffusion-liste.jsp">
+                    <i class="fa fa-percent"></i> <span>Majoration diffusion</span>
                 </a>
             </li>
             <%=MenuDynamique.renderMenu(arbre,currentMenu,tabMenu,RB) %>

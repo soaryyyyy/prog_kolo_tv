@@ -6,6 +6,7 @@
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="reservation.EtatReservationDetails" %>
 <%@ page import="reservation.ReservationDetailsAvecDiffusion" %>
+<%@ page import="reservation.MajorationDiffusion" %>
 <%@ page import="support.Support" %>
 <%@ page import="produits.CategorieIngredient" %>
 <%@ page import="bean.CGenUtil" %>
@@ -14,6 +15,7 @@
 <%@ page import="utilitaire.Utilitaire" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="java.util.Map" %>
 
 <style>
 .form-input {
@@ -97,7 +99,20 @@
 
     EtatReservationDetails eta = new EtatReservationDetails(idSupport, idTypeService, debutEtFinDeSemaine[0], debutEtFinDeSemaine[1]);
     String[] listeDate = eta.getListeDate();
-    String[] nomsJours = new String[] {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"};
+    MajorationDiffusion[] majorations = (MajorationDiffusion[]) CGenUtil.rechercher(new MajorationDiffusion(), null, null, null, "");
+    Map<String, List<MajorationDiffusion>> majorationsParJour = MajorationDiffusion.grouperParJour(majorations);
+
+    String[] nomsJours = new String[listeDate.length];
+    for (int j = 0; j < listeDate.length; j++) {
+      try {
+        LocalDate localDate = LocalDate.parse(listeDate[j], formatter);
+        String jour = MajorationDiffusion.getJourFromDayOfWeek(localDate.getDayOfWeek());
+        nomsJours[j] = (jour == null) ? "-" : jour;
+      } catch (Exception ex) {
+        nomsJours[j] = "-";
+      }
+    }
+
     List<LocalTime[]> listeHoraire = CalendarUtil.trierParReference(eta.getHoraire(), LocalTime.MIDNIGHT);
 
     double[][] montantCellule = new double[listeHoraire.size()][listeDate.length];
@@ -107,6 +122,7 @@
 
     for (int j = 0; j < listeDate.length; j++) {
       Vector reservationsDuJour = eta.getReservations().get(listeDate[j]);
+      List<MajorationDiffusion> majorationsJour = majorationsParJour.get(nomsJours[j]);
       if (reservationsDuJour == null) {
         continue;
       }
@@ -152,15 +168,30 @@
           continue;
         }
 
+        double montantMajoreReservation = 0;
         for (int idx = 0; idx < plagesTouchees.size(); idx++) {
           int iPlage = plagesTouchees.get(idx);
           long dureePlage = dureesChevauchement.get(idx);
-          double part = r.getMontantTtc() * ((double) dureePlage / (double) totalChevauchement);
-          montantCellule[iPlage][j] += part;
-          totalParPlage[iPlage] += part;
+          double partBase = r.getMontantTtc() * ((double) dureePlage / (double) totalChevauchement);
+
+          LocalTime plageDebut = listeHoraire.get(iPlage)[0];
+          LocalTime plageFin = listeHoraire.get(iPlage)[1];
+          LocalTime debutChevauchement = heureDebut.isAfter(plageDebut) ? heureDebut : plageDebut;
+          LocalTime finChevauchement = heureFin.isBefore(plageFin) ? heureFin : plageFin;
+
+          double partMajoree = MajorationDiffusion.appliquerMajoration(
+            partBase,
+            debutChevauchement,
+            finChevauchement,
+            majorationsJour
+          );
+
+          montantCellule[iPlage][j] += partMajoree;
+          totalParPlage[iPlage] += partMajoree;
+          montantMajoreReservation += partMajoree;
         }
-        totalParJour[j] += r.getMontantTtc();
-        totalGeneral += r.getMontantTtc();
+        totalParJour[j] += montantMajoreReservation;
+        totalGeneral += montantMajoreReservation;
       }
     }
 
@@ -192,6 +223,12 @@
     <a href="<%=lienPrecedent%>" class="btn btn-default"><i class="fa fa-chevron-left"></i></a>
     <span>Semaine du <%=debutEtFinDeSemaine[0]%> au <%=debutEtFinDeSemaine[1]%></span>
     <a href="<%=lienSuivant%>" class="btn btn-default"><i class="fa fa-chevron-right"></i></a>
+  </div>
+
+  <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+    <a href="<%=lien%>?but=reservation/majoration-diffusion-liste.jsp" class="btn btn-primary">
+      <i class="fa fa-percent"></i>&nbsp;G&eacute;rer les majorations
+    </a>
   </div>
 
   <div style="width: 100%;display: flex;justify-content: center">
