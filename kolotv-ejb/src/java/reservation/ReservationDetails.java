@@ -426,6 +426,90 @@ public class ReservationDetails extends ClassFille {
     }
 
 
+    public void controleConflitReservation(List<ReservationDetails> batchProcessed, Connection c) throws Exception {
+        if (this.getHeure() == null || this.getHeure().isEmpty()) return;
+
+        int dureeCourante = this.getDureeFinal(c);
+        LocalTime heureDebut = LocalTime.parse(this.getHeure());
+        LocalTime finCourante = (dureeCourante > 0) ? heureDebut.plusSeconds(dureeCourante) : heureDebut.plusSeconds(1);
+
+        boolean needRecheck = true;
+        int maxShifts = 365;
+        int shiftCount = 0;
+
+        while (needRecheck) {
+            if (shiftCount++ > maxShifts) {
+                throw new Exception("Impossible de trouver une date disponible pour la reservation");
+            }
+            needRecheck = false;
+            LocalDate dateCourante = this.getDaty().toLocalDate();
+
+            // 1. Verifier les conflits avec les details deja traites dans le meme batch
+            for (ReservationDetails processed : batchProcessed) {
+                if (processed.getHeure() == null || processed.getDaty() == null) continue;
+                if (!processed.getDaty().toLocalDate().equals(dateCourante)) continue;
+
+                int procDuree = processed.getDureeFinal(c);
+                LocalTime procDebut = LocalTime.parse(processed.getHeure());
+                LocalTime procFin = (procDuree > 0) ? procDebut.plusSeconds(procDuree) : procDebut.plusSeconds(1);
+
+                boolean overlap = heureDebut.isBefore(procFin) && procDebut.isBefore(finCourante);
+                if (!overlap) continue;
+
+                boolean memeService = this.getIdproduit() != null && this.getIdproduit().equals(processed.getIdproduit());
+                boolean memeMedia = (this.getIdMedia() != null && this.getIdMedia().equals(processed.getIdMedia()))
+                                 || (this.getIdMedia() == null && processed.getIdMedia() == null);
+
+                if (!memeService && !memeMedia) {
+                    throw new Exception("Impossible de creer la reservation : il existe deja une reservation avec un autre service et un autre media a la date " + this.getDaty() + " et heure " + this.getHeure());
+                }
+                if (memeService && memeMedia) {
+                    this.setDaty(Date.valueOf(dateCourante.plusDays(1)));
+                    needRecheck = true;
+                    break;
+                }
+            }
+            if (needRecheck) continue;
+
+            // 2. Verifier les conflits avec les reservations existantes en base
+            PreparedStatement stmt = c.prepareStatement(
+                "SELECT IDPRODUIT, IDMEDIA, HEURE, DUREE FROM RESERVATIONDETAILS WHERE DATY = ? AND HEURE IS NOT NULL"
+            );
+            stmt.setDate(1, this.getDaty());
+            ResultSet rs = stmt.executeQuery();
+            try {
+                while (rs.next()) {
+                    String existProduit = rs.getString("IDPRODUIT");
+                    String existMedia = rs.getString("IDMEDIA");
+                    String existHeure = rs.getString("HEURE");
+                    int existDuree = rs.getInt("DUREE");
+
+                    LocalTime existDebut = LocalTime.parse(existHeure);
+                    LocalTime existFin = (existDuree > 0) ? existDebut.plusSeconds(existDuree) : existDebut.plusSeconds(1);
+
+                    boolean overlap = heureDebut.isBefore(existFin) && existDebut.isBefore(finCourante);
+                    if (!overlap) continue;
+
+                    boolean memeService = this.getIdproduit() != null && this.getIdproduit().equals(existProduit);
+                    boolean memeMedia = (this.getIdMedia() != null && this.getIdMedia().equals(existMedia))
+                                     || (this.getIdMedia() == null && existMedia == null);
+
+                    if (!memeService && !memeMedia) {
+                        throw new Exception("Impossible de creer la reservation : il existe deja une reservation avec un autre service et un autre media a la date " + this.getDaty() + " et heure " + this.getHeure());
+                    }
+                    if (memeService && memeMedia) {
+                        this.setDaty(Date.valueOf(dateCourante.plusDays(1)));
+                        needRecheck = true;
+                        break;
+                    }
+                }
+            } finally {
+                rs.close();
+                stmt.close();
+            }
+        }
+    }
+
     public void controlMedia(Connection c) throws Exception {
         if (this.getIdMedia()!=null && !this.getIdMedia().isEmpty()){
             Media media = this.getMedia(c);

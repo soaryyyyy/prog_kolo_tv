@@ -361,6 +361,27 @@ public class Reservation extends ClassMere implements ClassIA
         {
             retour.addAll(fille[i].decomposer());
         }
+
+        // Controle des conflits de reservation (chevauchement de date/heure)
+        retour.sort(Comparator.comparing(ReservationDetails::getDaty));
+        List<reservation.ReservationDetails> batchProcessed = new ArrayList<>();
+        boolean estOuvert = false;
+        Connection conn = c;
+        try {
+            if (conn == null) {
+                conn = new UtilDB().GetConn();
+                estOuvert = true;
+            }
+            for (reservation.ReservationDetails detail : retour) {
+                detail.controleConflitReservation(batchProcessed, conn);
+                batchProcessed.add(detail);
+            }
+        } finally {
+            if (estOuvert && conn != null) {
+                conn.close();
+            }
+        }
+
         reservation.ReservationDetails[] filleVrai=retour.toArray (new reservation.ReservationDetails[retour.size()]);
         this.setFille(filleVrai);
         return super.createObject(u, c);
