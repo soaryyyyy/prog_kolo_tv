@@ -1,0 +1,27 @@
+-- Trouver la categorie "publicite"
+SELECT ID, VAL
+FROM CATEGORIEINGREDIENT
+ORDER BY VAL;
+
+
+-- Verifier les lignes qui alimentent la grille
+SELECT ID, DATY, HEURE, DUREE, MONTANTTTC, CATEGORIEPRODUIT, IDSUPPORT
+FROM RESERVATIONDETAILS_DIFFUSION
+WHERE DATY BETWEEN DATE '2026-01-19' AND DATE '2026-01-25'
+ORDER BY DATY, HEURE;
+
+
+-- 1) Ajuster une ligne de reservation (horaire + duree + montant via PU/QTE)
+UPDATE RESERVATIONDETAILS
+SET DATY  = DATE '2026-01-20',
+    HEURE = '10:20:00',
+    DUREE = 2400,      -- 40 minutes
+    PU    = 200000,
+    QTE   = 1
+WHERE ID = 'RESADET000001';
+
+-- 2) S'assurer que la reservation mere est validee et sur le bon support
+UPDATE RESERVATION
+SET ETAT = 11,
+    IDSUPPORT = 'SUPP002'
+WHERE ID = (SELECT IDMERE FROM RESERVATIONDETAILS WHERE ID = 'RESADET000001');

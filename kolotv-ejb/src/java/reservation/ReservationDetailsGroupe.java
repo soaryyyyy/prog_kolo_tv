@@ -98,7 +98,7 @@ public class ReservationDetailsGroupe extends ClassFille {
     public String getDuree() {
         return duree;
     }
-
+    
     public String getIdmere() {
         return idmere;
     }
