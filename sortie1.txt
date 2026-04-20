@@ -1,0 +1,2 @@
+./opt/wildfly-10/standalone/tmp/kolotv.war
+./opt/wildfly-10/standalone/deployments/kolotv.war

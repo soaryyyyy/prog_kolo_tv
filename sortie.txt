@@ -1,0 +1,8 @@
+./opt/wildfly-10/standalone/tmp/kolotv.war
+./opt/wildfly-10/standalone/deployments/kolotv.war
+
+jar tf /opt/wildfly-10/standalone/tmp/kolotv.war | grep -i "LoggerConfigurator\|org/jboss/netty\|WEB-INF/lib"
+jar tf /opt/wildfly-10/standalone/deployments/kolotv.war | grep -i "LoggerConfigurator\|org/jboss/netty\|WEB-INF/lib"
+
+jar tf /opt/wildfly-10/standalone/tmp/kolotv.war | grep -i "LoggerConfigurator\|org/jboss/netty\|WEB-INF/lib"
+jar tf /opt/wildfly-10/standalone/deployments/kolotv.war | grep -i "LoggerConfigurator\|org/jboss/netty\|WEB-INF/lib"

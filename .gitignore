@@ -1,4 +1,7 @@
-build-file
+build-file/*
+
+!build-file/lib/
+!build-file/lib/**
 build.xml
 .idea
 kolotv-ejb/build
