@@ -1,5 +1,9 @@
 # KoloTV
 
+## Documentation technique
+
+- [Specification technique - Chiffre d'affaire publicitaire et majoration de diffusion](technical-specification.md)
+
 
 
 ## Configuration
